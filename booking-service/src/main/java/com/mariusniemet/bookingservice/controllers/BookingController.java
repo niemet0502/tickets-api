@@ -2,6 +2,7 @@ package com.mariusniemet.bookingservice.controllers;
 
 import com.mariusniemet.bookingservice.entities.Booking;
 import com.mariusniemet.bookingservice.repositories.IBooking;
+import com.mariusniemet.bookingservice.services.BookingService;
 import com.mariusniemet.bookingservice.shared.Event;
 import jakarta.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ public class BookingController {
 
     private RestTemplate restTemplate;
 
-    public BookingController(IBooking repository) {
+    private BookingService service;
+
+    public BookingController(IBooking repository, BookingService service) {
         this.repository = repository;
         this.restTemplate = new RestTemplate();
+        this.service = service;
     }
 
     @GetMapping
@@ -39,11 +43,9 @@ public class BookingController {
     public Booking create(@RequestBody Booking newBooking){
         String url = "http://localhost:7003/events" + "/" + newBooking.getEventId();
 
-        // call the event service to check if the number of places the user wants to buy is still available
-        Event event = restTemplate.getForEntity(url, Event.class).getBody();
 
-        System.out.println(event.getQuantityBooked());
-        System.out.println(newBooking.getTotal());
+        // call the event service to check if the number of places the user wants to buy is still available
+        Event event = service.getEvent(newBooking.getEventId());
 
         int remaingQuantity = event.getQuantityTotal() - event.getQuantityBooked();
 
@@ -56,12 +58,7 @@ public class BookingController {
 
             // call the event service to decrement the number of places
             event.setQuantityBooked(event.getQuantityBooked() + newBooking.getTotal());
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Object> requestEntity = new HttpEntity<>(event, headers);
-
-            // Make PUT request
-            restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Event.class);
+            service.updateEvent(newBooking.getEventId(), event);
 
             return createdBooking;
         }else {
@@ -72,11 +69,18 @@ public class BookingController {
 
     @DeleteMapping("/{id}")
     public Booking delete(@PathVariable Long id){
+
         Booking toDelete = repository.findById(id).orElseThrow();
 
-        // call the event service the restore the booking canceled
+        // get the event
+        Event event = service.getEvent(toDelete.getEventId());
 
         repository.delete(toDelete);
+
+        // call the event service the restore the booking canceled
+        event.setQuantityBooked(event.getQuantityBooked() - toDelete.getTotal());
+        service.updateEvent(toDelete.getEventId(), event);
+
         return toDelete;
     }
 }
