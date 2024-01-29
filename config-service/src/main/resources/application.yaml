@@ -1,0 +1,11 @@
+server:
+  port: 7000
+# The main goal of this service is to handle services configuration so it doesn't register to the registry
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri:
+  application:
+    name: CONFIG-SERVICE

@@ -1,0 +1,18 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: EVENT-SERVICE-ROUTE
+          uri: lb://EVENT-SERVICE
+          predicates:
+            - Path=/api/test
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7002/eureka
