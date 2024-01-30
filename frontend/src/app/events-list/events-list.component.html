@@ -3,7 +3,7 @@
     <div class="d-flex flex-column mt-5 align-self-center w-100" style="max-width: 1000px;">
         <div class="d-flex justify-content-between">
             <h2>Events List</h2>
-            <button class="btn btn-primary btn-sm">New event</button>
+            <button [routerLink]="['/event-new']" class="btn btn-primary btn-sm">New event</button>
         </div>
         <table class="table">
             <thead>
@@ -32,3 +32,4 @@
         </table>
     </div>
 </div>
+

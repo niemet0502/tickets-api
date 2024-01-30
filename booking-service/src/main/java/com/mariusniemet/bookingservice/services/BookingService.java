@@ -31,6 +31,10 @@ public class BookingService {
         HttpEntity<Object> requestEntity = new HttpEntity<>(toUpdate, headers);
 
         // Make PUT request
-        return restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Event.class).getBody();
+        Event response =  restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Event.class).getBody();
+
+        System.out.println(response.getName());
+        System.out.println(response.getAddress());
+        return  response;
     }
 }
