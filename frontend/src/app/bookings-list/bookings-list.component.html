@@ -1,0 +1,31 @@
+<div class="d-flex w-100 justify-content-center">
+    <div class="d-flex flex-column mt-2 align-self-center w-100 mt-5" style="max-width: 1000px;">
+        <div class="d-flex justify-content-between">
+            <h2>Booking List</h2>
+            <button class="btn btn-primary btn-sm">New booking</button>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Bought by</th>
+                <th scope="col">Total</th>
+                <th scope="col">Total price</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of fetchedData">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.username }} - {{ item.useremail }}</td>
+                    <td>{{ item.total }}</td>
+                    <td>{{ item.totalPrice }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm">Edit</button>
+                        <button class="btn btn-danger btn-sm m-2">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
