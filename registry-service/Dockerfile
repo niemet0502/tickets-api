@@ -10,8 +10,8 @@ COPY . .
 # Build the project using Maven
 RUN mvn clean package
 
-# Use the same Maven image as the base image for running the application
-FROM maven:3.8.4-openjdk-17
+# Use the official OpenJDK 17 image as the base image for running the application
+FROM openjdk:17-jdk-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -22,6 +22,6 @@ COPY --from=build /app/target/*.jar app.jar
 # Expose port 8080
 EXPOSE 7002
 
-# Specify the default command to run the application
-CMD ["java", "-jar", "-Dserver.port=7002", "app.jar"]
 
+# Specify the default command to run the application
+CMD ["java", "-jar", "app.jar"]

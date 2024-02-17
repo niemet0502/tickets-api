@@ -18,13 +18,13 @@ public class BookingService {
     }
 
     public Event getEvent(int eventID){
-        String url = "http://localhost:7003/events" + "/" + eventID;
+        String url = "http://event-service:7003/events" + "/" + eventID;
 
        return restTemplate.getForEntity(url, Event.class).getBody();
     }
 
     public Event updateEvent(int eventId, Event toUpdate){
-        String url = "http://localhost:7003/events" + "/" + eventId;
+        String url = "http://event-service:7003/events" + "/" + eventId;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

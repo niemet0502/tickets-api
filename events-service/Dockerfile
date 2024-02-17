@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the project using Maven
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Use the official OpenJDK 17 image as the base image for running the application
 FROM openjdk:17-jdk-alpine

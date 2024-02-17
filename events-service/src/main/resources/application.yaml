@@ -4,7 +4,7 @@ spring:
   application:
     name: EVENT-SERVICE
   datasource:
-    url: jdbc:postgresql://localhost:9433/event_db
+    url: jdbc:postgresql://event-db:5432/event_db
     username: marius
     password: root
     driver-class-name: org.postgresql.Driver
@@ -19,6 +19,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:7002/eureka
+      defaultZone: http://registry:7002/eureka
   instance:
-    hostname: localhost
+    hostname: registry

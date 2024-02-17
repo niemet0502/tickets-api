@@ -42,7 +42,7 @@ public class BookingController {
 
     @PostMapping
     public Booking create(@RequestBody Booking newBooking){
-        String url = "http://localhost:7003/events" + "/" + newBooking.getEventId();
+        String url = "http://event-service:7003/events" + "/" + newBooking.getEventId();
 
 
         // call the event service to check if the number of places the user wants to buy is still available
