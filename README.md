@@ -3,3 +3,7 @@
 ## Architecture
 
 <img src="architecture.png">
+
+## Images registry
+
+<img src="docker-hub-registry.png">
