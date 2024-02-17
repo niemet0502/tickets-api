@@ -30,7 +30,7 @@ public class BookingService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> requestEntity = new HttpEntity<>(toUpdate, headers);
 
-        // Make PUT request
+        // Make PUT request to update the seats booked for the event
         Event response =  restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Event.class).getBody();
 
         System.out.println(response.getName());
