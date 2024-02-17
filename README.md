@@ -1,1 +1,5 @@
-"# java-microservices-event-booking-app" 
+# Java microservices booking app
+
+## Architecture
+
+<img src="architecture.png">
