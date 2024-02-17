@@ -28,7 +28,7 @@ public class EventController {
 
     @GetMapping("/{id}")
     public Event findOne(@PathVariable Long id){
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Could not found event"));
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Could not found the event"));
     }
 
     @PutMapping("/{id}")
