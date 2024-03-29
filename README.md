@@ -35,10 +35,10 @@ GET	| /booking/event/{id}	| Get all the ticket for a given event	| × | ×
 - All services are talking to each other via the Rest API
 
 ## Infrastructure 
+[Spring cloud](https://spring.io/projects/spring-cloud) provides powerful tools for developers to quickly implement common distributed systems patterns
 
 <img src="assets/infra.png" alt="infra">
 
-[Spring cloud](https://spring.io/projects/spring-cloud) provides powerful tools for developers to quickly implement common distributed systems patterns
 
 ### API gateway 
 API Gateway is a single entry point into the system, used to handle requests and routing them to the appropriate backend service. 
@@ -56,6 +56,17 @@ With Spring Boot, you can easily build Eureka Registry using the [spring-cloud-s
 [Spring Cloud Config](https://docs.spring.io/spring-cloud-config/docs/current/reference/html/) is horizontally scalable centralized configuration service for the distributed systems. It uses a pluggable repository layer that currently supports local storage, Git, and Subversion.
 
 ## Deployment 
+Continuous deployment is a software development practice where code changes are automatically deployed to production environments as soon as they are ready, typically after passing through a series of automated tests and quality checks. 
+
+For this project we have a simple pipeline to deploy new version of each service: 
+
+<img src="assets/pipeline.png" alt="pipeline" />
+
+Each service has its own pipeline that is run every time a changes is merged into the main branch. The pipeline basically checkout the code, build the service, run the test, build a new image and push it to the registry then it connects to the server and update the image version uses in production. 
+
+Since this app is only for tutorial we have only one environment but in real world application you should have at least the following env: **Staging** and **Production**. 
+
+We use [Github actions](https://github.com/features/actions) for pipeline and [Docker hub](https://hub.docker.com/) as image registry. 
 
 ## Usage 
 
