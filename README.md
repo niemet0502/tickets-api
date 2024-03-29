@@ -70,6 +70,45 @@ We use [Github actions](https://github.com/features/actions) for pipeline and [D
 
 ## Usage 
 
+**Before you start**
+
+- Install Docker and Docker Compose.
+
+**Steps to run the project**
+
+- Clone this repo
+
+  ```bash
+  git clone git@github.com:niemet0502/spring-boot-microservices-event-booking-app.git
+  ```
+
+* Change directory and for each app renamed the .env.example for to .env and setup your credentials
+
+  ```bash
+  cd spring-boot-microservices-event-booking-app
+  ```
+
+* Now you can build the docker image
+
+  ```bash
+  docker-compose build
+  ```
+
+* and then run the containers
+  ```bash
+  docker-compose up -d
+  ```
+
+Docker will run all the services. 
+
+### Important endpoints
+
+- http://localhost:7001 Gateway 
+- http://localhost:7002 Registry 
+- http://localhost:7003 Event service 
+- http://localhost:7004 Booking service
+- http://localhost:7000 Config service
+
 ## Frontend
 
 The frontend part of this project is built using the lastest version of angular. Here is some screen shoots
