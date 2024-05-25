@@ -5,6 +5,7 @@ public class TransactionCreateDto {
     private  int ticketId;
     private int userId;
     private int ticketPrice;
+    private int eventId;
 
     public int getTicketPrice() {
         return ticketPrice;
@@ -14,10 +15,11 @@ public class TransactionCreateDto {
         this.ticketPrice = ticketPrice;
     }
 
-    public TransactionCreateDto(int quantity, int ticketId, int userId) {
+    public TransactionCreateDto(int quantity, int ticketId, int userId, int eventId) {
         this.quantity = quantity;
         this.ticketId = ticketId;
         this.userId = userId;
+        this.eventId = eventId;
     }
 
     public int getQuantity() {
@@ -42,5 +44,13 @@ public class TransactionCreateDto {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 }

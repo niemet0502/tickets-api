@@ -17,6 +17,10 @@ public class Transaction {
     @Column(name = "ticket_id")
     private  int ticketId;
 
+    @Column(name = "event_id")
+    private  int eventId;
+
+
     @Column(name = "transaction_date")
     private Date transactionDate;
 
@@ -30,10 +34,11 @@ public class Transaction {
 
     }
 
-    public Transaction(int userId, int quantity, int ticketId){
+    public Transaction(int userId, int quantity, int ticketId, int eventId){
         this.userId = userId;
         this.quantity = quantity;
         this.ticketId = ticketId;
+        this.eventId = eventId;
     }
 
     public int getUserId() {
@@ -82,5 +87,13 @@ public class Transaction {
 
     public Long getId() {
         return id;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 }
