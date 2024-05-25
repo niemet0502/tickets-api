@@ -17,24 +17,14 @@ public class Event {
 
     private Date date;
 
-    private int quantityTotal;
-
-    private int quantityBooked;
-
-    private int price;
 
     public Event() {}
 
-    Event(String name, String address, Date date, int quantityTotal, int quantityBooked, int price){
+    public Event(String name, String address, Date date){
         this.address = address;
         this.name = name;
         this.date = date;
-        this.quantityBooked = quantityBooked;
-        this.quantityTotal = quantityTotal;
-        this.price = price;
     }
-
-
 
     public Long getId() {
         return id;
@@ -56,17 +46,6 @@ public class Event {
         this.date = date;
     }
 
-    public void setQuantityTotal(int quantityTotal) {
-        this.quantityTotal = quantityTotal;
-    }
-
-    public void setQuantityBooked(int quantityBooked) {
-        this.quantityBooked = quantityBooked;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public String getName() {
         return name;
@@ -80,15 +59,4 @@ public class Event {
         return date;
     }
 
-    public int getQuantityTotal() {
-        return quantityTotal;
-    }
-
-    public int getQuantityBooked() {
-        return quantityBooked;
-    }
-
-    public int getPrice() {
-        return price;
-    }
 }
