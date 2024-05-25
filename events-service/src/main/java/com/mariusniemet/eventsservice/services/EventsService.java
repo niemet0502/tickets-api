@@ -6,8 +6,11 @@ import com.mariusniemet.eventsservice.repositories.IEventRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventsService {
@@ -32,19 +35,56 @@ public class EventsService {
 
     }
 
-
     public List<Event> findAll(){
             return this.repository.findAll();
     }
 
-//    public Event findById(Long id){
-//        Event result = null;
-//        result = repository.;
-//        try {
-//        }catch (Exception e){
-////            .orElseThrow(() -> new RuntimeException("Could not found the event"))
-//        }
-//        return ;
-//
-//    }
+    public Event update(Long id, EventCreateDto updateDto) throws BadRequestException {
+
+        // check if the event exists
+        Optional<Event> toUpdate = this.repository.findById(id);
+
+        if(toUpdate.isEmpty()){
+            throw new BadRequestException("Event doesn't exist");
+        }
+        // update
+        Event event = toUpdate.get();
+
+        event.setName(updateDto.getName());
+        event.setAddress(updateDto.getAddress());
+        event.setDate(updateDto.getDate());
+
+        return this.repository.save(event);
+    }
+
+    public Event remove(Long id) throws BadRequestException {
+
+        // check if the event exists
+        Optional<Event> toDelete = this.repository.findById(id);
+
+        if(toDelete.isEmpty()){
+            throw new BadRequestException("Event doesn't exist");
+        }
+
+        try{
+
+            this.repository.delete(toDelete.get());
+
+            // send the event EventCanceled
+
+            return toDelete.get();
+        }catch (Exception e){
+            throw new
+                    BadRequestException("Failed to remove the events", e);
+        }
+    }
+    public Event findOne(@PathVariable Long id) throws BadRequestException {
+        Optional<Event> result = this.repository.findById(id);
+
+        if(result.isEmpty()){
+            throw new BadRequestException("Event doesn't exist");
+        }
+
+        return result.get();
+    }
 }

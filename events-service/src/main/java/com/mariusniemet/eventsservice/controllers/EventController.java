@@ -2,10 +2,8 @@ package com.mariusniemet.eventsservice.controllers;
 
 import com.mariusniemet.eventsservice.dtos.EventCreateDto;
 import com.mariusniemet.eventsservice.entities.Event;
-import com.mariusniemet.eventsservice.repositories.IEventRepository;
 import com.mariusniemet.eventsservice.services.EventsService;
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,21 +36,24 @@ public class EventController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-//    @GetMapping("/{id}")
-//    public Event findOne(@PathVariable Long id){
-//        return repository.findById(id).orElseThrow(() -> new RuntimeException("Could not found the event"));
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody EventCreateDto updateDto) throws BadRequestException {
+        Event result = this.service.update(id, updateDto);
 
-//    @PutMapping("/{id}")
-//    public  Event update(@RequestBody Event toUpdate, @PathVariable Long id){
-//        return repository.findById(id)
-//                .map(event -> {
-//                    event.setName(toUpdate.getName());
-//                    return repository.save(event);
-//                })
-//                .orElseGet(() -> {
-//                    toUpdate.setId(id);
-//                    return repository.save(toUpdate);
-//                });
-//    }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Event> findOne(@PathVariable Long id) throws BadRequestException{
+        Event result = this.service.findOne(id);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Event> remove(@PathVariable  Long id) throws BadRequestException {
+        Event result = this.service.remove(id);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
