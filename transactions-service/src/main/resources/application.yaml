@@ -1,5 +1,5 @@
 server:
-  port: 7004
+  port: 7005
 spring:
   application:
     name: TRANSACTION-SERVICE
