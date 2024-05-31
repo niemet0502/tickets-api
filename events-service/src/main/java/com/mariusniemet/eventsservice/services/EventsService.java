@@ -29,7 +29,7 @@ public class EventsService {
         try{
             Event result = this.repository.save(toCreate);
 
-            // publish the event eventCreated with the ticket data
+            // send EVENT eventCreated with the ticket data
             this.logger.info("Event created {}", result);
             return result;
         }catch (Exception e){
@@ -79,7 +79,7 @@ public class EventsService {
 
             this.repository.delete(toDelete.get());
             this.logger.info("Event canceled {}", id);
-            // send the event EventCanceled
+            // send EVENT EventCanceled
 
             return toDelete.get();
         }catch (Exception e){
