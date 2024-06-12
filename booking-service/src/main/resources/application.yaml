@@ -4,13 +4,16 @@ spring:
   application:
     name: BOOKING-SERVICE
   datasource:
-    url: jdbc:postgresql://booking-db:5432/booking_db
+    url: jdbc:postgresql://localhost:9432/booking_db
     username: marius
     password: root
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
+  sql:
+    init:
+      mode: always
 #  cloud:
 #    config:
 #      uri: http://localhost:8888
@@ -19,6 +22,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://registry:7002/eureka
+      defaultZone: http://localhost:7002/eureka
   instance:
     hostname: registry

@@ -11,6 +11,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  sql:
+    init:
+      mode: always
 #  cloud:
 #    config:
 #      uri: http://localhost:8888
