@@ -11,6 +11,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: tickets-app
+  sql:
+    init:
+      mode: always
 #  cloud:
 #    config:
 #      uri: http://localhost:8888
@@ -22,3 +29,4 @@ eureka:
       defaultZone: http://localhost:7002/eureka
   instance:
     hostname: registry
+
