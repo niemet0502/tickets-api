@@ -54,6 +54,12 @@ Here is the lists of events that have been implemented so far. For each event we
 - **Consumer**: tickets-service
 - **Action**: created the type of ticket for each type for the event
 
+### Purchase Canceled 
+- **Producer**: transactions-service
+- **Data**: {ticketId, quantity}
+- **Consumer**: tickets-service
+- **Action** Update the counter of quantity sold.
+
 ### Ticket Purchased 
 - **Producer**: transactions-service
 - **Data**: {eventId, quantity}
