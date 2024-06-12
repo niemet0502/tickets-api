@@ -33,6 +33,7 @@ public class EventsService {
             this.logger.info("Event created {}", result);
             return result;
         }catch (Exception e){
+            System.out.println(e.getCause());
             this.logger.error("Failed to create the event [{}]", e.getCause());
             throw new BadRequestException("Failed to create the event", e);
         }
@@ -98,5 +99,9 @@ public class EventsService {
         }
 
         return result.get();
+    }
+
+    public void removeAll(){
+        this.repository.deleteAll();
     }
 }
