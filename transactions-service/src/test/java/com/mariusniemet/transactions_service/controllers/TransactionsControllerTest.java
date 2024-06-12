@@ -2,7 +2,6 @@ package com.mariusniemet.transactions_service.controllers;
 
 import com.mariusniemet.transactions_service.dtos.TransactionCreateDto;
 import com.mariusniemet.transactions_service.entities.Transaction;
-import com.mariusniemet.transactions_service.entities.TransactionCreatedEvent;
 import com.mariusniemet.transactions_service.services.TransactionsService;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
