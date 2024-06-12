@@ -72,6 +72,7 @@ Here is the lists of events that have been implemented so far. For each event we
 - **Consumer**: transactions-service and tickets-service
 - **Action**: Remove all data related to the event canceled
 
+
 ## Infrastructure 
 [Spring cloud](https://spring.io/projects/spring-cloud) provides powerful tools for developers to quickly implement common distributed systems patterns
 
@@ -92,6 +93,14 @@ With Spring Boot, you can easily build Eureka Registry using the [spring-cloud-s
 
 ### Config service
 [Spring Cloud Config](https://docs.spring.io/spring-cloud-config/docs/current/reference/html/) is horizontally scalable centralized configuration service for the distributed systems. It uses a pluggable repository layer that currently supports local storage, Git, and Subversion.
+
+### Spring for Kafka
+[Spring for kafka](https://docs.spring.io/spring-kafka/reference/kafka.html) project applies core Spring concepts to the development of Kafka-based messaging solutions. It provides a “template” as a high-level abstraction for sending messages
+
+## Testing
+
+
+## Observability
 
 ## Deployment 
 Continuous deployment is a software development practice where code changes are automatically deployed to production environments as soon as they are ready, typically after passing through a series of automated tests and quality checks. 
