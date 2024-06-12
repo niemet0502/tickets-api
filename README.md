@@ -2,11 +2,13 @@
 The is a simple booking app built to demonstrate the [Microservice architecture](https://martinfowler.com/microservices/) using the Spring Boot, Spring Cloud and Docker. The project is intended as a tutorial. 
 
 ## Functionnal services 
-The app is decomposed into two core microservices. There are independently deployable applications organizaed around a certain business domains.
+The app is decomposed into three core microservices. There are independently deployable applications organizaed around a certain business domains.
 
-<img src="assets/services.png" alt="services schema">
+They communicate with each other asynchronously through Kafka, each service subscribes to the topics they have to and handles events when they are published.
 
-### Event service
+<img src="assets/functional-services.png" alt="services schema">
+
+### Events service
 Exposes endpoints to handle events CRUD.
 
 Method	| Path	| Description	| User authenticated	| 
@@ -17,22 +19,52 @@ POST	| /events	| Create a new event	|   | 	×
 PUT	| /events/{id}	| Update a given event	| × | ×
 DELETE	| /events/{id}	| Cancel a given event	| × | ×
 
-### Booking service
-Exposes endpoints to book an event (buy tickets) and displayed booking informations.
+### Tickets service
+Exposes endpoints to create the different types of Tickets available for a event and track the tickets still available or sold. 
 
 Method	| Path	| Description	| User authenticated	| 
 ------------- | ------------------------- | ------------- |:-------------:|
-GET	| /booking	| Get all the ticket	|  | 	
-GET	| /booking/{id}	| Get a specific booking	| × | ×
-POST	| /booking	| Buy tickets for an event	|   | 	×
-PUT	| /booking/{id}	| Update a given booking	| × | ×
-GET	| /booking/event/{id}	| Get all the ticket for a given event	| × | ×
+GET	| /tickets?eventId	| Get all the ticket for an event	|  | 	
+POST	| /tickets	| Create ticket type for an event	|   | 	×
+PUT	| /tickets/{id}	| Update a given ticket	| × | ×
+DELETE	| /tickets/{id}	| Remove a ticket type	| × | ×
 
+### Transactions service
+Exposes endpoints to buy a ticket, cancel a purchase, etc. 
+
+Method	| Path	| Description	| User authenticated	| 
+------------- | ------------------------- | ------------- |:-------------:|
+GET	| /transactions?eventId=1&userId=1	| Get all purchases for an event or customer	|  | 	
+GET	| /transactions/{id}	| Get a specific purchase	| × | ×
+POST	| /transactions	| Make a purchase	|   | 	×
+PUT	| /transactions/{id}	| Update a given purchase	| × | ×
+DELETE	| /transactions/{id}	| Cancel a purchase	| × | ×
 
 ### Notes
-- Each microservice has its own database, so there is no way to bypass API and access persistence data directly.
+- Each microservice has its own database.
 - [PostgreSQL](https://www.postgresql.org/) is used as a primary database for each of the services.
-- All services are talking to each other via the Rest API
+- All services are talking to each other via [Kafka](https://kafka.apache.org/).
+
+## Kafka Events 
+Here is the lists of events that have been implemented so far. For each event we have to service that publishes it, the service(s) interested by it (they subscribe to the topic) ,and the action they should take. 
+
+### Event created 
+- **Producer**: events-service
+- **Data**: { eventId, ticketTypes[]}
+- **Consumer**: tickets-service
+- **Action**: created the type of ticket for each type for the event
+
+### Ticket Purchased 
+- **Producer**: transactions-service
+- **Data**: {eventId, quantity}
+- **Consumer**: tickets-service
+- **Action**: Update the counter of quantity_sold for the appropriate ticket type
+
+### Event canceled 
+- **Producer**: events-service
+- **Data**: {eventId}
+- **Consumer**: transactions-service and tickets-service
+- **Action**: Remove all data related to the event canceled
 
 ## Infrastructure 
 [Spring cloud](https://spring.io/projects/spring-cloud) provides powerful tools for developers to quickly implement common distributed systems patterns
