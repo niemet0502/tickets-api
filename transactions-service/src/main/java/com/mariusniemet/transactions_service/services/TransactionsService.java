@@ -2,6 +2,8 @@ package com.mariusniemet.transactions_service.services;
 
 import com.mariusniemet.transactions_service.dtos.TransactionCreateDto;
 import com.mariusniemet.transactions_service.entities.Transaction;
+import com.mariusniemet.transactions_service.entities.TransactionCreatedEvent;
+import com.mariusniemet.transactions_service.producers.EventProducer;
 import com.mariusniemet.transactions_service.repositories.ITransaction;
 import jakarta.ws.rs.NotFoundException;
 import org.apache.coyote.BadRequestException;
@@ -17,9 +19,11 @@ import java.util.Optional;
 public class TransactionsService {
     private static final Logger logger = LoggerFactory.getLogger(TransactionsService.class);
     ITransaction iTransaction;
+//    EventProducer<TransactionCreatedEvent> eventProducer;
 
     public  TransactionsService(ITransaction iTransaction){
         this.iTransaction = iTransaction;
+//        this.eventProducer = eventProducer;
     }
 
 
@@ -34,7 +38,10 @@ public class TransactionsService {
             Transaction result = this.iTransaction.save(toCreate);;
             logger.info("Transaction successfully created {}", result);
 
+            TransactionCreatedEvent event = new TransactionCreatedEvent(result.getTicketId(), result.getQuantity());
+
             // SEND EVENT TICKET PURCHASED
+//            this.eventProducer.sendTransactionCreated("ticket-purchased", event);
             return  result;
         }catch (Exception e){
             logger.error("Failed to create the transaction", e);
@@ -83,5 +90,9 @@ public class TransactionsService {
 
         // SEND EVENT PURCHASE CANCELED
         return  toRemove.get();
+    }
+
+    public void removeAll(){
+        this.iTransaction.deleteAll();
     }
 }
