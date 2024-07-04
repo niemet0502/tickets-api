@@ -2,10 +2,12 @@ package com.mariusniemet.eventsservice.services;
 
 import com.mariusniemet.eventsservice.dtos.EventCreateDto;
 import com.mariusniemet.eventsservice.entities.Event;
+import com.mariusniemet.eventsservice.producers.EventsProducer;
 import com.mariusniemet.eventsservice.repositories.IEventRepository;
 import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,10 +17,13 @@ import java.util.Optional;
 @Service
 public class EventsService {
     private final IEventRepository repository;
+
+    private final EventsProducer producer;
     private final Logger logger = LoggerFactory.getLogger(EventsService.class);
 
-    public EventsService(IEventRepository repository) {
+    public EventsService(IEventRepository repository, EventsProducer producer) {
         this.repository = repository;
+        this.producer = producer;
     }
 
     public Event create(EventCreateDto createDto) throws BadRequestException {
@@ -30,6 +35,7 @@ public class EventsService {
             Event result = this.repository.save(toCreate);
 
             // send EVENT eventCreated with the ticket data
+            this.producer.sendMessage("event-created", "events testing");
             this.logger.info("Event created {}", result);
             return result;
         }catch (Exception e){

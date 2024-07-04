@@ -4,8 +4,21 @@ server:
 spring:
   application:
     name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: event-service-route
+#          uri: lb://EVENT-SERVICE # Load-balanced URI for EVENT-SERVICE
+          uri: http://localhost:7003
+          predicates:
+            - Path=/events/**
+        - id: booking-service-route
+#          uri: lb://BOOKING-SERVICE # Load-balanced URI for BOOKING-SERVICE
+          uri: http://localhost:7004
+          predicates:
+            - Path=/bookings/**
 
 eureka:
   client:
     service-url:
-      defaultZone: http://registry:7002/eureka
+      defaultZone: http://localhost:7002/eureka

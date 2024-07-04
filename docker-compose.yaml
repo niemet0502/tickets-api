@@ -1,29 +1,35 @@
 services:
-  event-service:
-    build:
-      context: ./events-service
-      dockerfile: Dockerfile
-    image: java-event-service
-    restart: always
-    depends_on:
-      - event-db
-      - registry
-      - gateway
-    ports:
-      - "7003:7003"
+  # event-service:
+  #   build:
+  #     context: ./events-service
+  #     dockerfile: Dockerfile
+  #   image: java-event-service
+  #   restart: always
+  #   depends_on:
+  #     event-db:
+  #       condition: service_healthy
+  #     registry:
+  #       condition: service_started
+  #     gateway:
+  #       condition: service_started
+  #   ports:
+  #     - "7003:7003"
 
-  booking-service:
-    build:
-      context: ./booking-service
-      dockerfile: Dockerfile
-    image: java-booking-service
-    restart: always
-    depends_on:
-      - booking-db
-      - registry
-      - gateway
-    ports:
-      - "7004:7004"
+  # booking-service:
+  #   build:
+  #     context: ./booking-service
+  #     dockerfile: Dockerfile
+  #   image: java-booking-service
+  #   restart: always
+  #   depends_on:
+  #     booking-db:
+  #       condition: service_healthy
+  #     registry:
+  #       condition: service_started
+  #     gateway:
+  #       condition: service_started
+  #   ports:
+  #     - "7004:7004"
 
   registry:
     build:
@@ -54,6 +60,11 @@ services:
     restart: always
     volumes:
       - event_db_data:/var/lib/pgsql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   booking-db:
     image: postgres
@@ -66,7 +77,35 @@ services:
     restart: always
     volumes:
       - booking_db_data:/var/lib/pgsql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  transaction-db:
+    image: postgres
+    ports:
+      - 9434:5432
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=marius
+      - POSTGRES_DB=transaction_db
+    restart: always
+    volumes:
+      - transaction_db_data:/var/lib/pgsql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  kafka: 
+    image: apache/kafka:3.7.0
+    ports:
+      - 9092:9092
 
 volumes:
   event_db_data:
   booking_db_data:
+  transaction_db_data:

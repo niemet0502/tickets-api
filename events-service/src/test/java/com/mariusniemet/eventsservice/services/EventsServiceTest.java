@@ -3,6 +3,7 @@ package com.mariusniemet.eventsservice.services;
 
 import com.mariusniemet.eventsservice.dtos.EventCreateDto;
 import com.mariusniemet.eventsservice.entities.Event;
+import com.mariusniemet.eventsservice.producers.EventsProducer;
 import com.mariusniemet.eventsservice.repositories.IEventRepository;
 import com.mariusniemet.eventsservice.shared.TicketType;
 import org.apache.coyote.BadRequestException;
@@ -25,12 +26,15 @@ public class EventsServiceTest {
     @Mock
     private IEventRepository repository;
 
+    @Mock
+    private EventsProducer producer;
+
     private EventsService service;
 
     @BeforeEach
     public void setup(){
         MockitoAnnotations.openMocks(this);
-        service = new EventsService(repository);
+        service = new EventsService(repository, producer);
     }
 
     @Test
