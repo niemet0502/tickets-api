@@ -52,5 +52,6 @@ public class Event {
     public Date getDate() {
         return date;
     }
+    public Long getId(){return id;}
 
 }
