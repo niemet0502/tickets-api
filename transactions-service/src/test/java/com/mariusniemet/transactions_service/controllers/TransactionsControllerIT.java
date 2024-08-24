@@ -23,7 +23,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TransactionsControllerTest {
+public class TransactionsControllerIT {
     @LocalServerPort
     private Integer port;
 
@@ -84,11 +84,13 @@ public class TransactionsControllerTest {
     @Test
     void shouldCreateAnTransaction(){
         // arrange
-        String requestBody = "{\n" +
-                "  \"quantity\": \"1\",\n" +
-                "  \"ticketId\": \"2\",\n" +
-                "  \"eventId\": \"1\",\n" +
-                "  \"userId\": \"1\" \n}";
+        String requestBody = """
+                {
+                  "quantity": "1",
+                  "ticketId": "2",
+                  "eventId": "1",
+                  "userId": "1"\s
+                }""";
 
         // act
         Response response = given()
@@ -124,7 +126,7 @@ public class TransactionsControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionForTransactionById() throws BadRequestException {
+    void shouldThrowExceptionForTransactionById() {
         // act
         Response response = given().contentType(ContentType.JSON)
                 .when()
